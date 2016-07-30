@@ -13,7 +13,7 @@ LOG_INFO = 1
 LOG_WARN = 2
 LOG_ERROR = 3
 LOG_CRASH = 4
-log_level = LOG_DEBUG
+log_level = LOG_INFO
 
 
 def log_message(msg, level):

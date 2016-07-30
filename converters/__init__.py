@@ -11,6 +11,8 @@ class DataConverterBase(object):
     """
     This is the abstract class that converts any data formats into the standard weka-ARFF format.
     """
+    ARFF_SUFFIX = 'arff'
+
     def __init__(self):
         super(DataConverterBase, self).__init__()
 

@@ -13,6 +13,7 @@ class UciConverter(DataConverterBase):
     """
     This converter converts [UCI dataset](http://archive.ics.uci.edu/ml/datasets.html) into ARFF format.
     """
+
     def __init__(self):
         super(UciConverter, self).__init__()
         self.uci_to_arff = {
@@ -20,6 +21,15 @@ class UciConverter(DataConverterBase):
         }
 
     def convert(self, input_file_path, output_file_path=None):
+        """
+        Converts an input UCI data set into ARFF format. You must ensure that:
+        1. input_file_path.{data|test|names} all exist.
+        2. The output is automatically generated as output_file_path_{train|test}.arff
+
+        :param input_file_path:
+        :param output_file_path:
+        :return:
+        """
         helper.check_not_null_empty('input_file_path', input_file_path)
         train_file = input_file_path + '.data'
         helper.check_file_exists('train_file', train_file)
@@ -30,14 +40,17 @@ class UciConverter(DataConverterBase):
         if output_file_path is None or output_file_path == '':
             output_file_path = input_file_path
 
-        # The attribute definition.
+        # Parse attribute definition.
         attr_names, attr_values = self._parse_attributes(names_file)
         helper.log_debug('Attribute names:')
         helper.log_debug(str(attr_names))
         helper.log_debug('Attribute values:')
         helper.log_debug(str(attr_values))
-        self._convert_data(train_file, output_file_path + '_train.ARFF', attr_names, attr_values)
-        self._convert_data(test_file, output_file_path + '_test.ARFF', attr_names, attr_values)
+        # Do the converting job.
+        self._convert_data(train_file, output_file_path + '_train.' + UciConverter.ARFF_SUFFIX,
+                           attr_names, attr_values)
+        self._convert_data(test_file, output_file_path + '_test.' + UciConverter.ARFF_SUFFIX,
+                           attr_names, attr_values)
 
     def _parse_attributes(self, names_file):
         # No parameter validation since this is a private method.
