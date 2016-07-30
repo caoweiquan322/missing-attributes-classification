@@ -9,5 +9,6 @@ from converters.uci import UciConverter
 
 
 if __name__ == '__main__':
+    folder_path = '/Users/fatty/Papers/MissingClass/Adult'
     cvt = UciConverter()
-    cvt.convert()
+    cvt.convert(folder_path + '/adult')
